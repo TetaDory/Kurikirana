@@ -35,8 +35,9 @@ color: #000000;
 | Column   | Type     | Constraints  | Description  |
 |----------|----------|--------------|--------------|
 | id       | INT | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each food item |
-| name     | Row 2, Col 2 | Row 2, Col 3 |
-| category | Row 2, Col 2 | Row 2, Col 3 |
-| storage location | Row 2, Col 2 | Row 2, Col 3 |
+| name     | VARCHAR(255) | NOT NULL | Name of the food |
+| category | VARCHAR(100) | NOT NULL | Category |
+| expiry date | DATE | NOT NULL | Expiration date of the food |
+| storage location | Row 2, Col 2 | Row 2, Col 3 | Expiration date of the food |
 | temperature | Row 2, Col 2 | Row 2, Col 3 |
 | humidity | Row 2, Col 2 | Row 2, Col 3 |
