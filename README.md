@@ -2,9 +2,16 @@
 
 1️⃣ Colors
 
-Color Usage
+| Color Usage | Hex Code | Purpose |
+|----------|----------|----------|
+| Primary | #FFFFFF (White) | Backgrounds, cards, and main layout |
+| Secondary | #5A67BA (Purple) | Call-to-action buttons, active links, and highlights |
+| Tertiary | #000000 (Black) | Text, icons, and key UI elements for contrast |
 
-Hex Code
+
+
+
+
 
 Purpose
 
