@@ -75,6 +75,8 @@ And for the database, I can either install MySQL locally or use Docker to spin u
 
 
 After, I'll run my database migrations to set up the necessary tables.
+
+
 Infrastructure Overview
 Frontend: React (Hosted on Vercel)
 Backend: Node.js + Express (Hosted on Rendßer/Railway)
