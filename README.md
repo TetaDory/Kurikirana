@@ -34,10 +34,9 @@ color: #000000;
 
 | Column   | Type     | Constraints  | Description  |
 |----------|----------|--------------|--------------|
-| id       | Row 1, Col 2 | Row 1, Col 3 |
+| id       | INT | PRIMARY KEY, AUTO_INCREMENT | Unique identifier for each food item |
 | name     | Row 2, Col 2 | Row 2, Col 3 |
 | category | Row 2, Col 2 | Row 2, Col 3 |
-| expiry_date | Row 2, Col 2 | Row 2, Col 3 |
-| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
-| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
-| Row 3, Col 1 | Row 3, Col 2 | Row 3, Col 3 |
+| storage location | Row 2, Col 2 | Row 2, Col 3 |
+| temperature | Row 2, Col 2 | Row 2, Col 3 |
+| humidity | Row 2, Col 2 | Row 2, Col 3 |
