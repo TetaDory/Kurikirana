@@ -36,8 +36,8 @@ color: #000000;
 |----------|----------|--------------|--------------|
 | id       | Row 1, Col 2 | Row 1, Col 3 |
 | name     | Row 2, Col 2 | Row 2, Col 3 |
-| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
-| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
+| category | Row 2, Col 2 | Row 2, Col 3 |
+| expiry_date | Row 2, Col 2 | Row 2, Col 3 |
 | Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
 | Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
 | Row 3, Col 1 | Row 3, Col 2 | Row 3, Col 3 |
