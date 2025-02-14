@@ -1,36 +1,99 @@
-🎨 Style Guide for Your Dashboard
+🎨 Style Guide to the Dashboard
 
 1️⃣ Colors
-Primary Color (Background, main areas) → #FFFFFF (White)
-Secondary Color (Buttons, highlights, accents) → #5A67BA (Muted blue)
-Tertiary Color (Text, icons, key elements) → #000000 (Black)
+
+Color Usage
+
+Hex Code
+
+Purpose
+
+Primary
+
+#FFFFFF (White)
+
+Backgrounds, cards, and main layout
+
+Secondary
+
+#5A67BA (Muted Blue)
+
+Call-to-action buttons, active links, and highlights
+
+Tertiary
+
+#000000 (Black)
+
+Text, icons, and key UI elements for contrast
+
 💡 Usage:
-White (#FFFFFF): Backgrounds, cards, and main layout.
-Blue (#5A67BA): Call-to-action buttons, active links, and highlights.
-Black (#000000): Text, icons, and key UI elements for contrast.
+
+White (#FFFFFF) → Backgrounds, cards, and main layout.
+
+Blue (#5A67BA) → Call-to-action buttons, active links, and highlights.
+
+Black (#000000) → Text, icons, and key UI elements.
 
 2️⃣ Typography
-📌 Use a clean, readable font that complements the colors.
+
+📌 Font Choices
+
 Primary Font: Inter (Modern & versatile)
+
 Alternative Font: Poppins (Sleek & professional)
-Font Weights:
+
+🔤 Font Weights
+
 700 (Bold) → Headings
+
 500 (Medium) → Subheadings
+
 400 (Regular) → Body text
 
 3️⃣ Buttons & Inputs
-🔘 Button Styles:
-Primary Button: background: #5A67BA; color: #FFFFFF; (Blue with white text)
-Secondary Button: border: 2px solid #5A67BA; color: #5A67BA; (Outlined blue)
-Disabled Button: background: #A0AEC0; color: #FFFFFF; (Muted gray when inactive)
 
-🔲 Input Fields:
+🔘 Button Styles
+
+Button Type
+
+Background
+
+Text Color
+
+Border
+
+Primary
+
+#5A67BA (Muted Blue)
+
+#FFFFFF (White)
+
+None
+
+Secondary
+
+Transparent
+
+#5A67BA (Muted Blue)
+
+2px solid #5A67BA
+
+Disabled
+
+#A0AEC0 (Muted Gray)
+
+#FFFFFF (White)
+
+None
+
+🔲 Input Fields
+
 border: 1px solid #5A67BA;
 padding: 10px;
 border-radius: 6px;
 color: #000000;
 
-#Database Schema
+📂 Database Schema
 
 | Column   | Type     | Constraints  | Description  |
 |----------|----------|--------------|--------------|
