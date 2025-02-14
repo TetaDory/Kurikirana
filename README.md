@@ -57,11 +57,23 @@ For the database, I'll go with MySQL and use PlanetScale, Railway, or Supabaseâ€
 ###Local Deployment (For Development)
 
 During development, Iâ€™ll run everything locally. The frontend will be a React app, which I can start with:
+
+
 ``` npm start ```
+
+
 The backend will run using:
+
+
 ``` npm run dev ```
+
+
 And for the database, I can either install MySQL locally or use Docker to spin up a MySQL instance like this:
+
+
 ``` docker run --name food-db -e MYSQL_ROOT_PASSWORD=root -e MYSQL_DATABASE=food_tracker -p 3306:3306 -d mysql ```
+
+
 After, I'll run my database migrations to set up the necessary tables.
 Infrastructure Overview
 Frontend: React (Hosted on Vercel)
