@@ -8,46 +8,13 @@
 | Secondary | #5A67BA (Purple) | Call-to-action buttons, active links, and highlights |
 | Tertiary | #000000 (Black) | Text, icons, and key UI elements for contrast |
 
-
-
-
-
-
-Purpose
-
-Primary
-
-#FFFFFF (White)
-
-Backgrounds, cards, and main layout
-
-Secondary
-
-#5A67BA (Muted Blue)
-
-Call-to-action buttons, active links, and highlights
-
-Tertiary
-
-#000000 (Black)
-
-Text, icons, and key UI elements for contrast
-
-💡 Usage:
-
-White (#FFFFFF) → Backgrounds, cards, and main layout.
-
-Blue (#5A67BA) → Call-to-action buttons, active links, and highlights.
-
-Black (#000000) → Text, icons, and key UI elements.
-
 2️⃣ Typography
 
 📌 Font Choices
 
-Primary Font: Inter (Modern & versatile)
+Primary Font: Inter
 
-Alternative Font: Poppins (Sleek & professional)
+Alternative Font: Poppins
 
 🔤 Font Weights
 
@@ -56,42 +23,6 @@ Alternative Font: Poppins (Sleek & professional)
 500 (Medium) → Subheadings
 
 400 (Regular) → Body text
-
-3️⃣ Buttons & Inputs
-
-🔘 Button Styles
-
-Button Type
-
-Background
-
-Text Color
-
-Border
-
-Primary
-
-#5A67BA (Muted Blue)
-
-#FFFFFF (White)
-
-None
-
-Secondary
-
-Transparent
-
-#5A67BA (Muted Blue)
-
-2px solid #5A67BA
-
-Disabled
-
-#A0AEC0 (Muted Gray)
-
-#FFFFFF (White)
-
-None
 
 🔲 Input Fields
 
