@@ -38,6 +38,6 @@ color: #000000;
 | name     | VARCHAR(255) | NOT NULL | Name of the food |
 | category | VARCHAR(100) | NOT NULL | Category |
 | expiry date | DATE | NOT NULL | Expiration date of the food |
-| storage location | Row 2, Col 2 | Row 2, Col 3 | Expiration date of the food |
-| temperature | Row 2, Col 2 | Row 2, Col 3 |
-| humidity | Row 2, Col 2 | Row 2, Col 3 |
+| storage location | VARCHAR(100) | NULLABLE | Where it's stored |
+| temperature | DECIMAL(5,2) | NULLABLE | Temperature (°C) |
+| humidity | DECIMAL(5,2) | NULLABLE | Humidity level in storage(%) |
