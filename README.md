@@ -42,3 +42,5 @@ color: #000000;
 | storage location | VARCHAR(100) | NULLABLE | Where it's stored |
 | temperature | DECIMAL(5,2) | NULLABLE | Temperature (°C) |
 | humidity | DECIMAL(5,2) | NULLABLE | Humidity level in storage(%) |
+
+Prototype: https://www.figma.com/proto/feFOP4qByQMAJOpTDF4Rs1/Kurikirana?node-id=207-245&t=a1yMzvtXU78GJiOL-1
