@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kurikirana</title>
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+    <!-- Link to Font Awesome CSS file -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-6.4.0-web/css/all.min.css') }}">
+    <script src="https://js.stripe.com/v3/"></script>
+</head>
+<body>
+    <div class="background-container">
+        <header>
+            <h1>Kurikirana</h1>
+            <ul>
+                {% if current_user.is_authenticated %}
+                    <li><a href="{{ url_for('post') }}">Post</a></li>
+                    <!-- <li><a href="{{ url_for('explore') }}">Explore</a></li> -->
+                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+
+                {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+                {% endif %}
+            </ul>
+        </header>
+        <main>
+            {% if current_user.is_authenticated %}
+            <div class="container">
+                <h2>Welcome, {{ current_user.username }}!</h2>
+                <p>Thank you for being part of Kurikirana. You can now track in realtime all your products </p>
+                <p>Thank you for being part of Kurikirana. Start getting insight today.</p>
+			</div>
+            {% else %}
+
+            <div class="container">
+                <h2>Welcome To Kurikirana</h2>
+                <div class="pcontainer">
+                    <p>Kurikirana will help you track your food across the world and give you real-time insights on its conditions</p>
+                </div>
+                <a href="{{ url_for('register') }}" class="btn" >Get Started</a>
+            </div>
+            
+            <div class="second-section">
+                <p>Get insights on how your products are doing and exactly pinpoint their precise location</p>
+                <img src="../static/images/2.png" width="1000">
+            </div>
+            
+        </main>
+        <footer>
+            <p>&copy; 2025 Kurikirana</p>
+        </footer>
+            </div>
+        {% endif %}
+</body>
+<script>
+    let logoutTimer;
+  
+    function startLogoutTimer() {
+      logoutTimer = setTimeout(logout, 24 * 60 * 60 * 1000); // 24 hours in milliseconds
+    }
+  
+    function resetLogoutTimer() {
+      clearTimeout(logoutTimer);
+      startLogoutTimer();
+    }
+  
+    function logout() {
+      window.location.href = '/logout';
+    }
+
+    function handlePageClose() {
+      resetLogoutTimer();
+      logout(); // Perform logout when the page is closed
+    }
+  
+    // Attach event listeners to reset the timer on user activity
+    document.addEventListener('mousemove', resetLogoutTimer);
+    document.addEventListener('keypress', resetLogoutTimer);
+  
+    // Start the initial timer when the page loads
+    startLogoutTimer();
+    // Handle the beforeunload event to logout when the page is closed
+    window.addEventListener('beforeunload', function (event) {
+        // You may want to add a confirmation message here
+        logout();
+    })
+  </script>
+</html>

@@ -1,0 +1,98 @@
+/* static/css/register.css */
+
+:root {
+  --primary-color: #5A67BA;
+  --background-color: #ffffff;
+  --link-hover-color: #0056b3;
+}
+
+body {
+  font-family: Inter;
+  line-height: 1.6;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--background-color);
+  color: #fff;
+}
+
+  header {
+    display: flex;
+    background-color: var(--primary-color);
+    color: #ffffff;
+    padding: 10px 20px;
+    text-align: left;
+    opacity: 0.8;
+    position: fixed; /* Fixed at the top */
+    top: 0; /* Position at the top of the page */
+    width: 100%; /* Ensure the header spans the entire width */
+    z-index: 1000; /* Make sure it's on top of other content */
+  }
+
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  margin-right: 20px;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+h1 {
+  text-align: center;
+}
+
+form {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+form label {
+  display: block;
+  margin-bottom: 5px;
+  color: #000000;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+}
+
+input[type="submit"] {
+  background-color: var(--primary-color);
+  color: #000000;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--link-hover-color);
+}
+
+p {
+  text-align: center;
+  margin-top: 20px;
+}
+
+footer {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  position: fixed; /* Fixed at the bottom */
+  bottom: 0; /* Position at the bottom of the page */
+  opacity: 0.8;
+}

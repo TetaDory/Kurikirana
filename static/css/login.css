@@ -1,0 +1,126 @@
+/* static/css/login.css */
+
+:root {
+  --primary-color: #5A67BA;
+  --background-color: #5A67BA;
+  --link-hover-color: #0056b3;
+}
+
+/* body {
+  font-family: Inter;
+  line-height: 1.6;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--background-color);
+  background-image: linear-gradient(#5A67BA, #9EA5D6, white);
+  color: #fff;
+} */
+
+body {
+  font-family: Inter;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  grid-template-rows: 1fr auto;
+  height: 100%; /* Full height */
+  background-size: cover;
+  display: block; /* Removed flex from body */
+  
+  
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--background-color);
+  background-image: linear-gradient(#5A67BA, #9EA5D6, white);
+  color: #fff;
+}
+
+header {
+  display: flex;
+  background-color: var(--primary-color);
+  color: #fff;
+  padding: 10px 20px;
+  text-align: left;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+header h1 {
+  font-size: 30px;
+  margin: 0;
+  flex: 1;
+}
+
+ul {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+ul li {
+  margin-right: 20px;
+}
+
+ul li a {
+  text-decoration: none;
+  color: #fff;
+  font-weight: bold;
+}
+
+h2 {
+  text-align: center;
+}
+
+form {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: #fff;
+}
+
+input {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 10px;
+}
+
+input[type="submit"] {
+  background-color: var(--primary-color);
+  color: #fff;
+  cursor: pointer;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--link-hover-color);
+}
+
+p {
+  text-align: center;
+  color: #fff;
+}
+
+footer {
+  background-color: #ffffff;
+  color: #000000;
+  padding: 10px;
+  text-align: center;
+  width: 100%;
+  position: fixed; /* Fixed at the bottom */
+  bottom: 0; /* Position at the bottom of the page */
+  opacity: 0.8;
+}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="../static/css/dashboard.css">
+</head>
+<body>
+    <header>
+        <!-- <h1>Kurikirana</h1>
+        <ul>
+            <li><a href="{{ url_for('index') }}">Home</a></li>
+            {% if current_user.is_authenticated %}
+                <li><a href="{{ url_for('explore') }}">Explore</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+
+            {% else %}
+                <li><a href="{{ url_for('login') }}">Login</a></li>
+                <li><a href="{{ url_for('register') }}">Register</a></li>
+            {% endif %}
+        </ul> -->
+    </header>
+    <div class="sidebar">
+        <h2>Dashboard</h2>
+        <ul>
+            <li><a href="#">Overview</a></li>
+            <li><a href="#">Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            Weather Monitoring Dashboard
+        </div>
+
+        <div class="dashboard-container">
+            <div class="card">
+                <h3>Temperature Trends</h3>
+                <canvas id="temperatureChart" class="chart"></canvas>
+            </div>
+
+            <div class="card">
+                <h3>Humidity Levels</h3>
+                <canvas id="humidityChart" class="chart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+
+</body>
+</html>
