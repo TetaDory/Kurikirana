@@ -13,12 +13,13 @@
 <body>
     <header>
         <ul>
-        <li><h1><a href="{{ url_for('index') }}">Kurikirana</a></h1> </li>
+        <li>
+            <h1><a href="{{ url_for('index') }}">Kurikirana</a></h1>
+        </li>
             {% if current_user.is_authenticated %}
                 <li><a href="{{ url_for('post') }}">Post</a></li>
                 <li><a href="{{ url_for('explore') }}">Explore</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
-
             {% else %}
             {% endif %}
         </ul>

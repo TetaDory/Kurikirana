@@ -14,18 +14,20 @@
     <div class="background-container">
         <header>
             <h1>Kurikirana</h1>
-            <ul>
-                {% if current_user.is_authenticated %}
-                    <li><a href="{{ url_for('post') }}">Post</a></li>
-                    <!-- <li><a href="{{ url_for('explore') }}">Explore</a></li> -->
-                    <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
-                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
-
-                {% else %}
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('register') }}">Register</a></li>
-                {% endif %}
-            </ul>
+            <div class="dropdown">
+                <button class="dropbtn">Menu</button>
+                <div class="dropdown-content">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('explore') }}">Explore</a>
+                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <a href="{{ url_for('logout') }}">Logout</a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('register') }}">Register</a>
+                        <a href="#">About us</a>
+                    {% endif %}
+                </div>
+            </div>  
         </header>
         <main>
             {% if current_user.is_authenticated %}
@@ -53,7 +55,7 @@
         <footer>
             <p>&copy; 2025 Kurikirana</p>
         </footer>
-            </div>
+    </div>
         {% endif %}
 </body>
 <script>

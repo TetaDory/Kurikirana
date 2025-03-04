@@ -8,30 +8,34 @@
 </head>
 <body>
     <header>
-        <!-- <h1>Kurikirana</h1>
-        <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('explore') }}">Explore</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-
-            {% else %}
-                <li><a href="{{ url_for('login') }}">Login</a></li>
-                <li><a href="{{ url_for('register') }}">Register</a></li>
-            {% endif %}
-        </ul> -->
+        <h1>Kurikirana</h1>
+        <div class="dropdown">
+            <button class="dropbtn">Menu</button>
+            <div class="dropdown-content">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('explore') }}">Explore</a>
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('logout') }}">Logout</a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}">Register</a>
+                    <a href="#">About us</a>
+                {% endif %}
+            </div>
+        </div>  
     </header>
     <div class="sidebar">
         <h2>Dashboard</h2>
         <ul>
-            <li><a href="#">Overview</a></li>
+            <li><a href="{{ url_for('management') }}">Item Management</a></li>
             <li><a href="#">Settings</a></li>
+            <li><a href="#">About us</a></li>
         </ul>
     </div>
-
+    <main>
     <div class="main-content">
         <div class="header">
-            Weather Monitoring Dashboard
+            Humidity Monitoring Dashboard
         </div>
 
         <div class="dashboard-container">
@@ -46,9 +50,11 @@
             </div>
         </div>
     </div>
-
+</main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/js/dashboard.js"></script>
-
+    <footer>
+        <p>&copy; 2025 Kurikirana</p>
+    </footer>
 </body>
 </html>

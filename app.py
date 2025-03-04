@@ -145,6 +145,10 @@ def explore():
 def dashboard():
     return render_template('dashboard.html', current_user=current_user)
 
+@app.route('/management')
+def dashboard():
+    return render_template('management.html', current_user=current_user)
+
 @app.route('/logout')
 @login_required
 def logout():
