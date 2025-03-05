@@ -5,16 +5,40 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Item Manager</title>
         <link rel="stylesheet" href="../static/css/management.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     </head>
     <body>
         <header>
-
+            <h1>Kurikirana</h1>
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="dropdown-content">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('explore') }}">Explore</a>
+                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <a href="{{ url_for('logout') }}">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('register') }}">Register</a>
+                        <a href="#">About us</a>
+                    {% endif %}
+                </div>
+            </div>  
         </header>
-        <main>
-
-        </main>
-        <footer>
+        <div class="sidebar">
+                <h2>Item Management</h2>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a href="#">Settings</a></li>
+                <li><a href="#">About us</a></li>
+            </ul>
+        </div>
+    <footer>
             <p>&copy; 2025 Kurikirana</p>
-        </footer>
+    </footer>
     </body>
 </html>

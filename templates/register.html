@@ -8,24 +8,39 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
     <!-- Link to Font Awesome CSS file -->
     <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-6.4.0-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
     <header>
-        <ul>
-        <li>
-            <h1><a href="{{ url_for('index') }}">Kurikirana</a></h1>
-        </li>
-            {% if current_user.is_authenticated %}
-                <li><a href="{{ url_for('post') }}">Post</a></li>
-                <li><a href="{{ url_for('explore') }}">Explore</a></li>
-                <li><a href="{{ url_for('logout') }}">Logout</a></li>
-            {% else %}
-            {% endif %}
-        </ul>
+        <h1>Kurikirana</h1>
+        <div class="dropdown">
+            <button class="dropbtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="dropdown-content">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('explore') }}">Explore</a>
+                    <a href="{{ url_for('logout') }}">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
+                {% else %}
+                    <a href="{{ url_for('index') }}">Home</a>
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('aboutus') }}">About Us</a>
+                {% endif %}
+            </div>
+        </div>  
     </header>
     <h1>Register</h1>
     <form action="{{ url_for('register') }}" method="post">
+        <label for="firstname">First Name:</label>
+        <input type="text" id="firstname" name="firstname" required>
+        <br>
+        <label for="surname">Surname:</label>
+        <input type="text" id="surname" name="surname" required>
+        <br>
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>
@@ -46,7 +61,10 @@
         {% endif %}
         {% endwith %}
     </form>
-    <p>Already have an account? <a href="{{ url_for('login') }}">Login here</a>.</p>
+    <p>Already have an account? <a href="{{ url_for('login') }}">
+       <br>
+       <a href="{{ url_for('login') }}" class="btn">Login</a>
+    </p>
     <footer>
         <p>&copy; 2025 Kurikirana</p>
     </footer>

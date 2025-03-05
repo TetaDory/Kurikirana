@@ -146,8 +146,12 @@ def dashboard():
     return render_template('dashboard.html', current_user=current_user)
 
 @app.route('/management')
-def dashboard():
+def management():
     return render_template('management.html', current_user=current_user)
+
+@app.route('/aboutus')
+def aboutus():
+    return render_template('aboutus.html', current_user=current_user)
 
 @app.route('/logout')
 @login_required

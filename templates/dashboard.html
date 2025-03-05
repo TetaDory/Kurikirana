@@ -5,17 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
     <link rel="stylesheet" href="../static/css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
     <header>
         <h1>Kurikirana</h1>
         <div class="dropdown">
-            <button class="dropbtn">Menu</button>
+            <button class="dropbtn">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="dropdown-content">
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('explore') }}">Explore</a>
                     <a href="{{ url_for('dashboard') }}">Dashboard</a>
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <a href="{{ url_for('logout') }}">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
                 {% else %}
                     <a href="{{ url_for('login') }}">Login</a>
                     <a href="{{ url_for('register') }}">Register</a>
@@ -24,8 +29,9 @@
             </div>
         </div>  
     </header>
+    <div class="content-wrapper">
     <div class="sidebar">
-        <h2>Dashboard</h2>
+            <h2>Dashboard</h2>
         <ul>
             <li><a href="{{ url_for('management') }}">Item Management</a></li>
             <li><a href="#">Settings</a></li>
@@ -33,23 +39,29 @@
         </ul>
     </div>
     <main>
-    <div class="main-content">
-        <div class="header">
-            Humidity Monitoring Dashboard
+        <div class="itemnbr">
+        <h2>Item Nº3</h2>
         </div>
-
+    <div class="main-content">
         <div class="dashboard-container">
             <div class="card">
+                <div class="header">
+                    Humidity Monitoring Dashboard
+                </div>
                 <h3>Temperature Trends</h3>
                 <canvas id="temperatureChart" class="chart"></canvas>
             </div>
 
             <div class="card">
+                <div class="header">
+                    Temperature Monitoring Dashboard
+                </div>
                 <h3>Humidity Levels</h3>
                 <canvas id="humidityChart" class="chart"></canvas>
             </div>
         </div>
     </div>
+</div>
 </main>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/js/dashboard.js"></script>

@@ -4,27 +4,30 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Kurikirana</title>
-        <!-- Link to CSS file -->
+
         <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
-        <!-- Link to Font Awesome CSS file -->
         <link rel="stylesheet" href="{{ url_for('static', filename='fontawesome-free-6.4.0-web/css/all.min.css') }}">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
         <script src="https://js.stripe.com/v3/"></script>
     </head>
 <body>
     <header>
         <h1>Kurikirana</h1>
         <div class="dropdown">
-            <button class="dropbtn">Menu</button>
+            <button class="dropbtn">
+                <i class="fas fa-bars"></i>
+            </button>
             <div class="dropdown-content">
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('index') }}">Home</a>
                     <a href="{{ url_for('explore') }}">Explore</a>
-                    <a href="{{ url_for('logout') }}">Logout</a>
+                    <a href="{{ url_for('logout') }}">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                    </a>
                 {% else %}
                     <a href="{{ url_for('index') }}">Home</a>
-                    <a href="{{ url_for('login') }}">Login</a>
                     <a href="{{ url_for('register') }}">Register</a>
-                    <a href="#">About us</a>
+                    <a href="{{ url_for('aboutus') }}">About Us</a>
                 {% endif %}
             </div>
         </div>  
@@ -33,14 +36,19 @@
     <h2>Login</h2>
     <form action="{{ url_for('login') }}" method="post">
         <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
+        <input type="text" id="username" name="username" placeholder="Username" required>
         <br>
         <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
+        <div class="password-container">
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        </div>
         <br>
         <input type="submit" value="Login">
     </form>
-    <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a>.</p>
+    <p>Don't have an account? <a href="{{ url_for('login') }}">
+        <br>
+        <a href="{{ url_for('register') }}" class="btn">Register</a>
+     </p>
     </main>
     <footer>
         <p>&copy; 2025 Kurikirana</p>
