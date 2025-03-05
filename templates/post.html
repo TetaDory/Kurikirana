@@ -12,27 +12,38 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-    <header>
-        <ul>
-            <li><a href="{{ url_for('index') }}">Home</a></li>
-            <li><a href="{{ url_for('explore') }}">Explore</a></li>
-            <li><a href="{{ url_for('post') }}">Post</a></li>
-            <li><a href="{{ url_for('logout') }}">
+        <header>
+            <h1>Kurikirana</h1>
+            <div class="dropdown">
+                <button class="dropbtn">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="dropdown-content">
+                    {% if current_user.is_authenticated %}
+                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                        <a href="{{ url_for('aboutus') }}">About Us</a>
+                        <a href="{{ url_for('logout') }}">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                    </a></li>
-        </ul>
+                    </a>
+                    {% else %}
+                        <a href="{{ url_for('login') }}">Login</a>
+                        <a href="{{ url_for('register') }}">Register</a>
+                        <a href="#">About us</a>
+                    {% endif %}
+                </div>
+            </div>  
         </header>
     <div class="container mt-5">
         <h1 class="mb-4">Post Your Business Idea</h1>
         <form method="post" enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <div class="mb-3">
-                {{ form.business_idea.label }}
-                {{ form.business_idea(class="form-control") }}
+                {{ form.food_name.label }}
+                {{ form.food_name(class="form-control") }}
             </div>
             <div class="mb-3">
-                {{ form.contact_information.label }}
-                {{ form.contact_information(class="form-control") }}
+                {{ form.batch_number.label }}
+                {{ form.batch_number(class="form-control") }}
             </div>
             <div class="mb-3">
                 {{ form.submit(class="btn btn-primary") }}

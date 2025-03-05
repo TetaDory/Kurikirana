@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Food Item</title>
+    <link rel="stylesheet" href="../static/css/styles.css">
+</head>
+<body>
+    <h1>Edit Food Item</h1>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <div>
+            <label for="name">Food Name</label>
+            {{ form.name }}
+        </div>
+        <div>
+            <label for="optimum_temperature">Optimum Temperature</label>
+            {{ form.optimum_temperature }}
+        </div>
+        <div>
+            <label for="optimum_humidity">Optimum Humidity</label>
+            {{ form.optimum_humidity }}
+        </div>
+        <div>
+            {{ form.submit }}
+        </div>
+    </form>
+</body>
+</html>

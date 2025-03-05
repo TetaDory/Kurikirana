@@ -12,25 +12,36 @@
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body>
-    <header>
-    <ul>
-        <li><a href="{{ url_for('index') }}">Home</a></li>
-        <li><a href="{{ url_for('explore') }}">Explore</a></li>
-        <li><a href="{{ url_for('post') }}">Post</a></li>
-        <li><a href="{{ url_for('logout') }}">
-            <i class="fa-thin fa-arrow-right-from-bracket"></i>
-            </a>
-        </li>
-    </ul>
-    </header>
+    <!-- <header>
+        <h1>Kurikirana</h1>
+        <div class="dropdown">
+            <button class="dropbtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div class="dropdown-content">
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('explore') }}">Explore</a>
+                    <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                    <a href="{{ url_for('logout') }}">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
+                </a>
+                {% else %}
+                    <a href="{{ url_for('login') }}">Login</a>
+                    <a href="{{ url_for('register') }}">Register</a>
+                    <a href="#">About us</a>
+                {% endif %}
+            </div>
+        </div>  
+    </header> -->
+    
     <div class="container mt-5">
-        <h1 class="mb-4">Explore Business Ideas</h1>
+        <h1 class="mb-4">Explore Food Names</h1>
         {% for post in posts %}
             <div class="card mb-3">
                 <div class="card-body">
-                    <h5 class="card-title">{{ post.user.username }}</h5>
-                    <p class="card-text">{{ post.business_idea }}</p>
-                    <p class="card-text">{{ post.contact_information }}</p>
+                    <!-- <h5 class="card-title">{{ post.user.username }}</h5> -->
+                    <p class="card-text">{{ post.food_name }}</p>
+                    <p class="card-text">{{ post.batch_number }}</p>
                     <!--{% if post.images %}-->
                     <!--<img src="{{ url_for('static', filename=post.images) }}" class="card-img-top" alt="Business Image">-->
                     <!--{% endif %}
@@ -39,7 +50,7 @@
                             <source src="{{ url_for('static', filename=post.videos) }}" type="video/mp4">
                         </video>
                     {% endif %}-->
-                    <p class="card-text"><small class="text-muted">{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small></p>
+                    <!-- <p class="card-text"><small class="text-muted">{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small></p> -->
                 </div>
             </div>
         {% endfor %}

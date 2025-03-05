@@ -34,17 +34,33 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(60), nullable=False)
 
 class PostForm(FlaskForm):
-    business_idea = StringField('Business Idea', validators=[DataRequired()])
-    contact_information = StringField('Contact Information', validators=[DataRequired()])
-    submit = SubmitField('Post')  
+    food_name = StringField('Food Name', validators=[DataRequired()])
+    batch_number = StringField('Batch Number', validators=[DataRequired()])
+    submit = SubmitField('Post')
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    business_idea = db.Column(db.String(200), nullable=False)
-    contact_information = db.Column(db.String(100), nullable=False)
+    food_name = db.Column(db.String(200), nullable=False)
+    batch_number = db.Column(db.String(100), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
+
+
+class FoodItem(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    optimum_temperature = db.Column(db.String(50), nullable=False)
+    optimum_humidity = db.Column(db.String(50), nullable=False)
+
+    def __repr__(self):
+        return f"FoodItem('{self.name}', '{self.optimum_temperature}', '{self.optimum_humidity}')"
+
+class FoodItemForm(FlaskForm):
+    name = StringField('Food Name', validators=[DataRequired()])
+    optimum_temperature = StringField('Optimum Temperature', validators=[DataRequired()])
+    optimum_humidity = StringField('Optimum Humidity', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 # Initialize Flask-Login
 login_manager = LoginManager(app)
@@ -107,17 +123,17 @@ def login():
 @app.route('/post', methods=['GET', 'POST'])
 @login_required
 def post():
-    form = PostForm()  # Replace YourFormClass with the actual form class you are using
+    form = PostForm()
 
     if request.method == 'POST' and form.validate_on_submit():
         # Extract data from the form
-        business_idea = form.business_idea.data
-        contact_information = form.contact_information.data
+        food_name = form.food_name.data
+        batch_number = form.batch_number.data
 
         # Create a new post instance
         new_post = Post(
-            business_idea=business_idea,
-            contact_information=contact_information,
+            food_name=food_name,
+            batch_number=batch_number,
             user_id=current_user.id
         )
 
@@ -134,20 +150,45 @@ def post():
 
 @app.route('/explore')
 def explore():
-    # Retrieve all business ideas from the database
-    all_business_ideas = Post.query.all()
-    all_contact_information = Post.query.all()
+    # Retrieve all Food Names from the database
+    all_food_names = Post.query.all()
+    all_batch_number = Post.query.all()
 
-    # Pass the list of business ideas to the template
-    return render_template('explore.html', posts=all_business_ideas, contact_information=all_contact_information)
+    # Pass the list of Food Names to the template
+    return render_template('explore.html', posts=all_food_names, batch_number=all_batch_number)
 
 @app.route('/dashboard')
 def dashboard():
     return render_template('dashboard.html', current_user=current_user)
 
-@app.route('/management')
+@app.route('/management', methods=['GET', 'POST'])
+@login_required
 def management():
-    return render_template('management.html', current_user=current_user)
+    form = PostForm()
+
+    if request.method == 'POST' and form.validate_on_submit():
+        # Extract data from the form
+        food_name = form.food_name.data
+        batch_number = form.batch_number.data
+
+        # Create a new post instance
+        new_post = Post(
+            food_name=food_name,
+            batch_number=batch_number,
+            user_id=current_user.id
+        )
+
+        # Add the new post to the database session
+        db.session.add(new_post)
+
+        # Commit the changes to the database
+        db.session.commit()
+
+        # Redirect to the explore page after posting
+        return redirect(url_for('explore'))
+
+    return render_template('management.html', form=form, current_user=current_user)
+
 
 @app.route('/aboutus')
 def aboutus():
@@ -158,6 +199,51 @@ def aboutus():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/add_food', methods=['GET', 'POST'])
+@login_required
+def add_food():
+    form = FoodItemForm()
+    if form.validate_on_submit():
+        new_food = FoodItem(
+            name=form.name.data,
+            optimum_temperature=form.optimum_temperature.data,
+            optimum_humidity=form.optimum_humidity.data
+        )
+        db.session.add(new_food)
+        db.session.commit()
+        flash('Food item added successfully!', 'success')
+        return redirect(url_for('managefood'))
+    return render_template('add_food.html', form=form)
+
+@app.route('/managefood')
+@login_required
+def managefood():
+    food_items = FoodItem.query.all()
+    return render_template('managefood.html', food_items=food_items)
+
+@app.route('/edit_food/<int:id>', methods=['GET', 'POST'])
+@login_required
+def edit_food(id):
+    food_item = FoodItem.query.get_or_404(id)
+    form = FoodItemForm(obj=food_item)
+    if form.validate_on_submit():
+        food_item.name = form.name.data
+        food_item.optimum_temperature = form.optimum_temperature.data
+        food_item.optimum_humidity = form.optimum_humidity.data
+        db.session.commit()
+        flash('Food item updated successfully!', 'success')
+        return redirect(url_for('managefood'))
+    return render_template('edit_food.html', form=form, food_item=food_item)
+
+@app.route('/delete_food/<int:id>', methods=['POST'])
+@login_required
+def delete_food(id):
+    food_item = FoodItem.query.get_or_404(id)
+    db.session.delete(food_item)
+    db.session.commit()
+    flash('Food item deleted successfully!', 'success')
+    return redirect(url_for('managefood'))
 
 if __name__ == '__main__':
     with app.app_context():

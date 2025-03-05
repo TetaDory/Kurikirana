@@ -6,6 +6,7 @@
         <title>Item Manager</title>
         <link rel="stylesheet" href="../static/css/management.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <script src="https://js.stripe.com/v3/"></script>
     </head>
     <body>
         <header>
@@ -37,8 +38,68 @@
                 <li><a href="#">About us</a></li>
             </ul>
         </div>
+        <div class="container">
+            <button type="submit" class="btn" onclick="openPopup()">Add New Item</button>
+            <div class="popup" id="popup">
+                <form id="foodForm" method="post" enctype="multipart/form-data">
+                    {{ form.hidden_tag() }}
+                    <div class="mb-3">
+                        {{ form.food_name.label }}
+                        {{ form.food_name(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.batch_number.label }}
+                        {{ form.batch_number(class="form-control") }}
+                    </div>
+                    <div class="mb-3">
+                        {{ form.submit(class="btn btn-primary") }}
+                    </div>
+                    <!-- <label for="foodName">Food Name:</label>
+                    <input type="text" id="foodName" name="foodName" required>
+                
+                    <label for="optimumTemperature">Optimum Temperature (°C):</label>
+                    <input type="number" id="optimumTemperature" name="optimumTemperature" required>
+                
+                    <label for="optimumHumidity">Optimum Humidity (%):</label>
+                    <input type="number" id="optimumHumidity" name="optimumHumidity" required> -->
+                </form>
+                <button type="button" onclick="submitForm()">Add item</button>
+            </div>
+        </div>
     <footer>
             <p>&copy; 2025 Kurikirana</p>
     </footer>
+    <script>
+        let popup = document.getElementById("popup");
+
+        function openPopup(){
+            popup.classList.add("open-popup");
+        }
+
+        function closePopup(){
+            popup.classList.remove("open-popup");
+        }
+
+        function submitForm() {
+            const foodName = document.getElementById("foodName").value;
+            const optimumTemperature = document.getElementById("optimumTemperature").value;
+            const optimumHumidity = document.getElementById("optimumHumidity").value;
+            // Basic validation (you can add more robust validation)
+            if (!foodName || isNaN(optimumTemperature) || isNaN(optimumHumidity)) {
+                alert("Please fill in all fields with valid numbers.");
+                return;
+            }
+
+            // You can now send this data to your backend or process it as needed.
+            const foodData = {
+                foodName: foodName,
+                optimumTemperature: parseFloat(optimumTemperature),
+                optimumHumidity: parseFloat(optimumHumidity)
+            };
+
+            console.log("Food data:", foodData);
+            document.getElementById("foodForm").reset()
+        }
+    </script>
     </body>
 </html>
