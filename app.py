@@ -184,10 +184,12 @@ def management():
         # Commit the changes to the database
         db.session.commit()
 
-        # Redirect to the explore page after posting
-        return redirect(url_for('explore'))
+            # Retrieve all Food Names from the database
+    all_food_names = Post.query.all()
+    all_batch_number = Post.query.all()
 
-    return render_template('management.html', form=form, current_user=current_user)
+    # Pass the list of Food Names to the template
+    return render_template('management.html', posts=all_food_names, batch_number=all_batch_number, form=form, current_user=current_user)
 
 
 @app.route('/aboutus')

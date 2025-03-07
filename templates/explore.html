@@ -35,25 +35,21 @@
     </header> -->
     
     <div class="container mt-5">
-        <h1 class="mb-4">Explore Food Names</h1>
-        {% for post in posts %}
-            <div class="card mb-3">
-                <div class="card-body">
-                    <!-- <h5 class="card-title">{{ post.user.username }}</h5> -->
-                    <p class="card-text">{{ post.food_name }}</p>
-                    <p class="card-text">{{ post.batch_number }}</p>
-                    <!--{% if post.images %}-->
-                    <!--<img src="{{ url_for('static', filename=post.images) }}" class="card-img-top" alt="Business Image">-->
-                    <!--{% endif %}
-                    {% if post.videos %}
-                        <video controls class="card-img-top">
-                            <source src="{{ url_for('static', filename=post.videos) }}" type="video/mp4">
-                        </video>
-                    {% endif %}-->
-                    <!-- <p class="card-text"><small class="text-muted">{{ post.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</small></p> -->
-                </div>
-            </div>
-        {% endfor %}
+        <!-- <h1 class="mb-4">Explore Food Names</h1> -->
+        <div class="post-header">
+        </div>
+        <table style="width:100%">
+            <tr>
+                <th>Food Name</th>
+                <th>Batch Number</th>
+            </tr>
+            {% for post in posts %}
+            <tr>
+                <td>{{ post.food_name }}</td>
+                <td>{{ post.batch_number }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     </div>
     <footer>
         <p>&copy; 2025 Kurikirana</p>

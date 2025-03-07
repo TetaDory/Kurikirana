@@ -21,6 +21,44 @@ body {
     background-image: linear-gradient(#5A67BA, #9EA5D6, white);
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    align-items: left;
+}
+
+/* Styling for table header */
+th {
+    background-color: #5A67BA; /* Green background */
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+/* Styling for table cells */
+td {
+    border: 1px solid white; /* Light grey background */
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #fff; /* Border between rows */
+    background-color: #fff;
+}
+
+/* Hover effect for rows */
+tr:hover {
+    background-color: #ddd; /* Light grey background on hover */
+}
+
+/* Additional styling for the container */
+.container {
+    padding: 20px;
+    margin: auto;
+    max-width: 1000px;
+    background-color: #fff;
+    border-radius: 8px;
+}
+
 /* Header */
 header {
     display: flex;
