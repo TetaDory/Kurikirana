@@ -8,6 +8,7 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from sqlalchemy.dialects import postgresql
+from flask_oauthlib.client import OAuth, OAuthException
 import os
 from openpyxl import Workbook
 from io import BytesIO
@@ -19,7 +20,22 @@ app.config['SECRET_KEY'] = 'your_secret_key'
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config['SESSION_PERMANENT'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sitedb'
+app.secret_key = os.urandom(24)
 
+oauth = OAuth(app)
+
+google = oauth.remote_app(
+    'google',
+    consumer_key='35964229463-6bqmkla4fph1r4vtfnfcuc8qgv4sc91h.apps.googleusercontent.com',
+    consumer_secret='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',
+    request_token_params={
+        'scope': 'email profile'
+    },
+    base_url='https://www.googleapis.com/oauth2/v1/',
+    request_token_url=None,
+    access_token_url='https://accounts.google.com/o/oauth2/token',
+    authorize_url='https://accounts.google.com/o/oauth2/auth'
+)
 
 #postgres://default:y5AmTrIcR4zW@ep-royal-lake-92857756.us-east-1.postgres.vercel-storage.com:5432/verceldb
 
@@ -84,11 +100,6 @@ login_manager.login_view = 'login'
 def load_user(user_id):
     return User.query.get(int(user_id))
 
-# Routes
-@app.route('/')
-def index():
-    return render_template('index.html', current_user=current_user)
-
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -133,6 +144,32 @@ def login():
             return redirect(url_for('index'))
     
     return render_template('login.html')
+
+@app.route('/login/google')
+def google_login():
+    return google.authorize(callback=url_for('authorized', _external=True))
+@app.route('/login/google/authorized')
+def authorized():
+    resp = google.authorized_response()
+    if resp is None or resp.get('access_token') is None:
+        return 'Access denied: reason={} error={}'.format(
+            request.args['error_reason'],
+            request.args['error_description']
+        )
+    session['google_token'] = (resp['access_token'], '')
+    me = google.get('userinfo') # or people, depending on which google api you are using.
+    session['google_user'] = me.data
+    return redirect(url_for('index'))
+
+@google.tokengetter
+def get_google_oauth_token():
+    return session.get('google_token')
+
+# Example route to display user info
+@app.route('/')
+def index():
+    google_user = session.get('google_user')
+    return render_template('index.html', google_user=google_user)
 
 @app.route('/post', methods=['GET', 'POST'])
 @login_required
@@ -297,7 +334,11 @@ def contact():
 @app.route('/logout')
 @login_required
 def logout():
-    logout_user()
+    if 'google_user' in session:
+        session.pop('google_user', None)
+        session.pop('google_token', None)
+    elif current_user.is_authenticated:
+        logout_user()
     return redirect(url_for('index'))
 
 @app.route('/add_food', methods=['GET', 'POST'])

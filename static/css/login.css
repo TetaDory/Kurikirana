@@ -55,6 +55,11 @@ ul {
   padding: 0;
 }
 
+a.btn {
+  align-items: center;
+  text-align: center;
+  margin-left: 20px;
+}
 .button .fa-solid, .fas {
   padding-left: 40px;
 }

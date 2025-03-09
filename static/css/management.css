@@ -122,6 +122,14 @@ header h1 {
   
 .dropdown:hover .dropbtn {background-color: #5A67BA;}
 
+.delete {
+    background-color: transparent;
+    font-family: 'Inter';
+    border: transparent;
+    color: #5A67BA;
+    font-size: medium;
+}
+
 /* Sidebar */
 .sidebar {
     width: 250px;

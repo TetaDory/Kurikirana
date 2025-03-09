@@ -20,7 +20,7 @@
                     <i class="fas fa-bars"></i>
                 </button>
                 <div class="dropdown-content">
-                    {% if current_user.is_authenticated %}
+                    {% if current_user.is_authenticated or session['google_user'] %}
                     <a href="{{ url_for('index') }}">Home</a>    
                     <a href="{{ url_for('management') }}">Item Management</a>
                     <a href="{{ url_for('aboutus') }}">Contact</a>
