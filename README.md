@@ -84,7 +84,6 @@ To acces the platform simply follow these steps:
 
 ``` flask run ```
 
-
 And for the database, I can either install MySQL locally or use Docker to spin up a MySQL instance like this:
 
 

@@ -45,7 +45,16 @@
                 <h2>Welcome, {{ current_user.username }}!</h2>
                 {% endif %}
                 <p>Thank you for being part of Kurikirana. You can now track in realtime all your products </p>
-                <p>Thank you for being part of Kurikirana. Start getting insight today.</p>
+                <p>Start getting insight today.
+                    <br>
+                    Add your items to your dashboard and see what is going on in your storage facility
+                </p>
+                
+                <a href="{{ url_for('management') }}" class="btn">Item Management</a>
+                <div class="second-section">
+                    <p>Get insights on how your products are doing and exactly pinpoint their precise location</p>
+                    <img src="../static/images/2.png" width="1000">
+                </div>
 			</div>
             {% else %}
 

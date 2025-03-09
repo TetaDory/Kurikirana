@@ -47,7 +47,7 @@ migrate = Migrate(app, db)
 
 data = {
     1: {"temperature": [22, 24, 21, 26, 23, 25, 27, 30, 47, 22, 24, 21, 26, 23, 25, 27, 30, 47], "humidity": [60, 55, 70, 65, 80, 75, 85, 60, 55, 70, 65, 80, 75, 85]},
-    2: {"temperature": [26, 26, 25, 21, 10, 23, 23, 25, 28, 28, 26, 29, 21, 20, 22, 23, 25, 38], "humidity": [75, 70, 80, 85, 90, 88, 82, 75, 70, 80, 85, 90, 88, 82]},
+    2: {"temperature": [26, -10, 25, 21, 10, 23, 23, 25, 28, 28, 26, 29, 21, 20, 22, 23, 25, 100], "humidity": [75, 70, 80, 85, 90, 88, 82, 75, 70, 80, 85, 90, 88, 82]},
     3: {"temperature": [5, 7, 1, 9, 7, 12, 4, 9, 5, 2, 7, 1, 1, 3, 6, 3, 3, 7, 5, 5, 5, 4, 5, 6], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
     4: {"temperature": [25, 27, 21, 21, 40, 22, 34, 39, 50, 25, 27, 21, 21, 40, 22, 34, 39, 50], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
     5: {"temperature": [25, 27, 21, 21, 40, 22, 34, 39, 50, 25, 27, 21, 21, 40, 22, 34, 39, 50], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
@@ -149,6 +149,7 @@ def login():
 @app.route('/login/google')
 def google_login():
     return google.authorize(callback=url_for('authorized', _external=True))
+
 @app.route('/login/google/authorized')
 def authorized():
     resp = google.authorized_response()
@@ -158,7 +159,7 @@ def authorized():
             request.args['error_description']
         )
     session['google_token'] = (resp['access_token'], '')
-    me = google.get('userinfo') # or people, depending on which google api you are using.
+    me = google.get('userinfo')
     session['google_user'] = me.data
     return redirect(url_for('index'))
 
@@ -173,7 +174,7 @@ def index():
     return render_template('index.html', google_user=google_user)
 
 @app.route('/post', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def post():
     form = PostForm()
 
@@ -220,7 +221,7 @@ def dashboard():
     return render_template('dashboard.html', current_user=current_user)
 
 @app.route('/management', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def management():
     form = PostForm()
 
@@ -256,12 +257,12 @@ def management():
     return render_template('management.html', posts=all_food_names, batch_number=all_batch_number, maximum_temperature=all_maximum_temperature, maximum_humidity=all_maximum_humidity, form=form, current_user=current_user)
 
 @app.route('/tempreport')
-@login_required
+# @login_required
 def tempreport():
     return render_template('tempreport.html')
 
 @app.route('/humireport')
-@login_required
+# @login_required
 def humireport():
     return render_template('humireport.html')
 
@@ -273,7 +274,7 @@ def get_item_data(item_id):
         return jsonify({'error': 'Item not found'}), 404
 
 @app.route('/api/temperature_alerts')
-@login_required
+# @login_required
 def get_temperature_alerts():
     alerts_by_item = {}
     posts = Post.query.all()  # Fetch all posts from the database
@@ -299,7 +300,7 @@ def get_temperature_alerts():
     return jsonify(alerts_by_item)
 
 @app.route('/api/humidity_alerts')
-@login_required
+# @login_required
 def get_humidity_alerts():
     alerts_by_item = {}
     posts = Post.query.all()  # Fetch all posts from the database
@@ -333,7 +334,7 @@ def contact():
     return render_template('contact.html', current_user=current_user)
 
 @app.route('/logout')
-@login_required
+# @login_required
 def logout():
     if 'google_user' in session:
         session.pop('google_user', None)
@@ -343,7 +344,7 @@ def logout():
     return redirect(url_for('index'))
 
 @app.route('/add_food', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def add_food():
     form = FoodItemForm()
     if form.validate_on_submit():
@@ -359,13 +360,13 @@ def add_food():
     return render_template('add_food.html', form=form)
 
 @app.route('/managefood')
-@login_required
+# @login_required
 def managefood():
     food_items = FoodItem.query.all()
     return render_template('managefood.html', food_items=food_items)
 
 @app.route('/edit_food/<int:id>', methods=['GET', 'POST'])
-@login_required
+# @login_required
 def edit_food(id):
     food_item = Post.query.get_or_404(id) 
     form = PostForm(obj=food_item)
@@ -380,7 +381,7 @@ def edit_food(id):
     return render_template('edit_food.html', form=form, post=food_item)
 
 @app.route('/delete_food/<int:id>', methods=['POST'])
-@login_required
+# @login_required
 def delete_food(id):
     food_item = Post.query.get_or_404(id) #change from FoodItem to Post
     db.session.delete(food_item)
