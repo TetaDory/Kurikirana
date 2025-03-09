@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -26,6 +26,12 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 migrate = Migrate(app, db)
 
+data = {
+    1: {"temperature": [22, 24, 21, 26, 23, 25, 27, 30, 47], "humidity": [60, 55, 70, 65, 80, 75, 85]},
+    2: {"temperature": [28, 26, 29, 31, 30, 32, 33, 35, 38], "humidity": [75, 70, 80, 85, 90, 88, 82]},
+    # Add more items here as needed
+}
+
 # Define the User class
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -36,16 +42,19 @@ class User(UserMixin, db.Model):
 class PostForm(FlaskForm):
     food_name = StringField('Food Name', validators=[DataRequired()])
     batch_number = StringField('Batch Number', validators=[DataRequired()])
-    submit = SubmitField('Post')
+    maximum_temperature = StringField('Maximum Temperature (°C)', validators=[DataRequired()])
+    maximum_humidity = StringField('Maximum Humidity (g/kg)', validators=[DataRequired()])
+    submit = SubmitField('Add Item')
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     food_name = db.Column(db.String(200), nullable=False)
     batch_number = db.Column(db.String(100), nullable=False)
+    maximum_temperature = db.Column(db.String(100), nullable=False)
+    maximum_humidity = db.Column(db.String(100), nullable=False)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref=db.backref('posts', lazy=True))
-
 
 class FoodItem(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -129,11 +138,15 @@ def post():
         # Extract data from the form
         food_name = form.food_name.data
         batch_number = form.batch_number.data
+        maximum_temperature = form.maximum_temperature.data
+        maximum_humidity = form.maximum_humidity.data
 
         # Create a new post instance
         new_post = Post(
             food_name=food_name,
             batch_number=batch_number,
+            maximum_temperature=maximum_temperature,
+            maximum_humidity=maximum_humidity,
             user_id=current_user.id
         )
 
@@ -153,9 +166,11 @@ def explore():
     # Retrieve all Food Names from the database
     all_food_names = Post.query.all()
     all_batch_number = Post.query.all()
+    all_maximum_temperature = Post.query.all()
+    all_maximum_humidity = Post.query.all()
 
     # Pass the list of Food Names to the template
-    return render_template('explore.html', posts=all_food_names, batch_number=all_batch_number)
+    return render_template('explore.html', posts=all_food_names, batch_number=all_batch_number, maximum_temperature=all_maximum_temperature, maximum_humidity=all_maximum_humidity)
 
 @app.route('/dashboard')
 def dashboard():
@@ -170,11 +185,15 @@ def management():
         # Extract data from the form
         food_name = form.food_name.data
         batch_number = form.batch_number.data
+        maximum_temperature = form.maximum_temperature.data
+        maximum_humidity = form.maximum_humidity.data
 
         # Create a new post instance
         new_post = Post(
             food_name=food_name,
             batch_number=batch_number,
+            maximum_temperature=maximum_temperature,
+            maximum_humidity=maximum_humidity,
             user_id=current_user.id
         )
 
@@ -187,10 +206,18 @@ def management():
             # Retrieve all Food Names from the database
     all_food_names = Post.query.all()
     all_batch_number = Post.query.all()
+    all_maximum_temperature = Post.query.all()
+    all_maximum_humidity = Post.query.all()
 
     # Pass the list of Food Names to the template
-    return render_template('management.html', posts=all_food_names, batch_number=all_batch_number, form=form, current_user=current_user)
+    return render_template('management.html', posts=all_food_names, batch_number=all_batch_number, maximum_temperature=all_maximum_temperature, maximum_humidity=all_maximum_humidity, form=form, current_user=current_user)
 
+@app.route('/api/item_data/<int:item_id>')
+def get_item_data(item_id):
+    if item_id in data:
+        return jsonify(data[item_id])
+    else:
+        return jsonify({'error': 'Item not found'}), 404
 
 @app.route('/aboutus')
 def aboutus():
@@ -227,25 +254,26 @@ def managefood():
 @app.route('/edit_food/<int:id>', methods=['GET', 'POST'])
 @login_required
 def edit_food(id):
-    food_item = FoodItem.query.get_or_404(id)
-    form = FoodItemForm(obj=food_item)
+    food_item = Post.query.get_or_404(id) 
+    form = PostForm(obj=food_item)
     if form.validate_on_submit():
-        food_item.name = form.name.data
-        food_item.optimum_temperature = form.optimum_temperature.data
-        food_item.optimum_humidity = form.optimum_humidity.data
+        food_item.food_name = form.food_name.data
+        food_item.batch_number = form.batch_number.data
+        food_item.maximum_temperature = form.maximum_temperature.data
+        food_item.maximum_humidity = form.maximum_humidity.data
         db.session.commit()
         flash('Food item updated successfully!', 'success')
-        return redirect(url_for('managefood'))
-    return render_template('edit_food.html', form=form, food_item=food_item)
+        return redirect(url_for('management'))
+    return render_template('edit_food.html', form=form, post=food_item)
 
 @app.route('/delete_food/<int:id>', methods=['POST'])
 @login_required
 def delete_food(id):
-    food_item = FoodItem.query.get_or_404(id)
+    food_item = Post.query.get_or_404(id) #change from FoodItem to Post
     db.session.delete(food_item)
     db.session.commit()
     flash('Food item deleted successfully!', 'success')
-    return redirect(url_for('managefood'))
+    return redirect(url_for('management'))
 
 if __name__ == '__main__':
     with app.app_context():
