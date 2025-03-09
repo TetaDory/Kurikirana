@@ -19,6 +19,10 @@ body {
     /* background-image: linear-gradient(#5A67BA, #9EA5D6, white); */
 }
 
+.button .fa-solid, .fas {
+    padding-left: 40px;
+}
+
 .background-container::before {
     content: "";
     position: fixed;

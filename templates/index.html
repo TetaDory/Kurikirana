@@ -21,8 +21,10 @@
                 </button>
                 <div class="dropdown-content">
                     {% if current_user.is_authenticated %}
-                        <a href="{{ url_for('dashboard') }}">Dashboard</a>
-                        <a href="{{ url_for('explore') }}">Explore</a>
+                        <a href="{{ url_for('management') }}">Item Management</a>
+                        <!-- <a href="{{ url_for('dashboard') }}">Dashboard</a> -->
+                        <a href="{{ url_for('aboutus') }}">About Us</a>
+                        <a href="{{ url_for('contact') }}">Contact</a>
                         <a href="{{ url_for('logout') }}">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     </a>
@@ -46,7 +48,7 @@
             <div class="container">
                 <h2>Welcome To Kurikirana</h2>
                 <div class="pcontainer">
-                    <p>Kurikirana will help you track your food across the world and give you real-time insights on its conditions</p>
+                    <p>Kurikirana helps you track your food across the world and give you real-time insights on its conditions</p>
                 </div>
                 <div class="second-section">
                     <a href="{{ url_for('register') }}" class="btn">Get Started</a>

@@ -18,6 +18,10 @@ body {
   display: block; /* Removed flex from body */
 }
 
+.button .fa-solid, .fas {
+  padding-left: 40px;
+}
+
 .background-container::before {
   content: "";
   position: fixed;

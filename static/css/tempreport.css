@@ -19,11 +19,7 @@ body {
 }
 
 .excel button {
-    /* margin-left: 1061px; */
-    position: absolute; 
-    top: 10px;
-    right: 10px;
-    margin-top: 70px;
+    margin-left: 700px;
 }
 
 .button .fa-solid, .fas {
@@ -74,7 +70,7 @@ header h1 {
     padding: 16px 50px;
     font-size: 16px;
     border: none;
-  }
+}
   
 .dropdown {
     position: relative;
@@ -119,13 +115,6 @@ header h1 {
     padding: 20px;
     padding-top: 80px;
 }
-
-.dropbtna {
-    background-color: transparent;
-    color: #5A67BA;
-    padding: 0px 0px;
-    font-weight: bold;
-} 
 
 ul li {
     margin-right: 20px;
@@ -193,13 +182,18 @@ main {
 }
 
 /* Dashboard Grid */
-.dashboard-container {
+.report-container {
     display: grid;
-    grid-template-rows: 1fr 1fr;
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+    /* grid-template-rows: 1fr 1fr; */
+    /* grid-template-columns: 1fr; */
     gap: 20px;
-    align-items: stretch;
+    /* align-items: stretch; */
     margin: 0;
+    padding-top: 5px;
+    padding-left: 0px;
+    margin-left: 20px;
+    margin-bottom: 50px;
 }
 
 canvas {
@@ -240,4 +234,27 @@ footer {
   width: 100%;
   position: fixed;
   bottom: 0;
+}
+
+.item-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+}
+
+.item-card h3 {
+    margin-top: 0;
+}
+
+.item-card ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.item-card li {
+    background-color: #ffe6e6;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 3px;
 }

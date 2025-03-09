@@ -71,9 +71,30 @@
     }
 </style>
 </head>
-<body>    
+<body>
+  <header>
+    <h1>Kurikirana</h1>
+    <div class="dropdown">
+        <button class="dropbtn">
+            <i class="fas fa-bars"></i>
+        </button>
+      <div class="dropdown-content">
+        {% if current_user.is_authenticated %}
+        <a href="{{ url_for('index')}}">Home</a>
+        <a href="{{ url_for('dashboard')}}">Dashboard</a>
+        <a href="{{ url_for('aboutus') }}">About Us</a>
+        <a href="{{ url_for('logout') }}">
+        <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+        {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+        <a href="#">About us</a>
+        {% endif %}
+      </div>
+    </div>  
+  </header>
     <h2>Responsive Form</h2>
-    <p>Resize the browser window to see the effect. When the screen is less than 600px wide, make the two columns stack on top of each other instead of next to each other.</p>
     
     <div class="container">
       <form action="/action_page.php">

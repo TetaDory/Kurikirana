@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="../static/css/dashboard.css">
+    <title>Reports</title>
+    <link rel="stylesheet" href="../static/css/humireport.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
@@ -34,18 +34,10 @@
     </header>
     <div class="content-wrapper">
     <div class="sidebar">
-            <h2>Dashboard</h2>
+            <h2>Report</h2>
         <ul>
             <li><a href="{{ url_for('management') }}">Item Management</a></li>
-            <li><div class="dropdown">
-                <text class="dropbtna">Reports</text>
-                <div class="dropdown-content">
-                  <a href="{{ url_for('tempreport') }}">Temperature Alerts</a>
-                  <a href="{{ url_for('humireport') }}">Humidity Alerts</a>
-                </div>
-              </div>
-            </li>
-
+            <!-- <li><a href="#">Settings</a></li> -->
             <li><a href="{{ url_for('aboutus')}}">About us</a></li>
             <li><a href="{{ url_for('contact')}}">Contact us</a></li>
             <a href="{{ url_for('logout') }}">
@@ -55,46 +47,19 @@
     </div>
     <main>
         <div class="itemnbr">
-        <h2>Item Nº3</h2>
+            <h2>Humidity Alerts</h2>
         </div>
-        <div class="excel">
-            <button onclick="exportData()">Export data to Excel</button>
+        <div class="report-container">
+            <h2>Humidity Alerts</h2>
+            <ul id="humidityAlerts">
+                </ul>
         </div>
-        <div class="main-content">
-            <div class="dashboard-container">
-                <div class="card">
-                    <div class="header">
-                        Humidity Monitoring Dashboard
-                    </div>
-                    <h3>Temperature Trends</h3>
-                    <canvas id="temperatureChart" class="chart"></canvas>
-                </div>
-
-            <div class="card">
-                <div class="header">
-                    Temperature Monitoring Dashboard
-                </div>
-                <h3>Humidity Levels</h3>
-                <canvas id="humidityChart" class="chart"></canvas>
-            </div>
         </div>
     </div>
 </div>
 
 </main>
-    <script>
-        function exportData() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const itemId = urlParams.get('item_id');
-
-            if (itemId) {
-                window.location.href = `/export_excel/${itemId}`;
-            } else {
-                console.error("item_id not found in URL.");
-                alert("Could not export data. item_id not found.");
-            }
-        }
-    </script>
+    <script src="/static/js/humireports.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="/static/js/dashboard.js"></script>
     <footer>

@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, session, jsonify, send_file
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -9,6 +9,8 @@ from wtforms import StringField, SubmitField
 from wtforms.validators import DataRequired
 from sqlalchemy.dialects import postgresql
 import os
+from openpyxl import Workbook
+from io import BytesIO
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -27,9 +29,12 @@ login_manager = LoginManager(app)
 migrate = Migrate(app, db)
 
 data = {
-    1: {"temperature": [22, 24, 21, 26, 23, 25, 27, 30, 47], "humidity": [60, 55, 70, 65, 80, 75, 85]},
-    2: {"temperature": [28, 26, 29, 31, 30, 32, 33, 35, 38], "humidity": [75, 70, 80, 85, 90, 88, 82]},
-    # Add more items here as needed
+    1: {"temperature": [22, 24, 21, 26, 23, 25, 27, 30, 47, 22, 24, 21, 26, 23, 25, 27, 30, 47], "humidity": [60, 55, 70, 65, 80, 75, 85, 60, 55, 70, 65, 80, 75, 85]},
+    2: {"temperature": [26, 26, 25, 21, 10, 23, 23, 25, 28, 28, 26, 29, 21, 20, 22, 23, 25, 38], "humidity": [75, 70, 80, 85, 90, 88, 82, 75, 70, 80, 85, 90, 88, 82]},
+    3: {"temperature": [5, 7, 1, 9, 7, 12, 4, 9, 5, 2, 7, 1, 1, 3, 6, 3, 3, 7, 5, 5, 5, 4, 5, 6], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
+    4: {"temperature": [25, 27, 21, 21, 40, 22, 34, 39, 50, 25, 27, 21, 21, 40, 22, 34, 39, 50], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
+    5: {"temperature": [25, 27, 21, 21, 40, 22, 34, 39, 50, 25, 27, 21, 21, 40, 22, 34, 39, 50], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
+    6: {"temperature": [26, 26, 25, 21, 10, 23, 23, 25, 28, 28, 26, 29, 21, 20, 22, 23, 25, 39], "humidity": [75, 70, 80, 85, 90, 88, 82, 75, 70, 80, 85, 90, 88, 82]},
 }
 
 # Define the User class
@@ -212,6 +217,16 @@ def management():
     # Pass the list of Food Names to the template
     return render_template('management.html', posts=all_food_names, batch_number=all_batch_number, maximum_temperature=all_maximum_temperature, maximum_humidity=all_maximum_humidity, form=form, current_user=current_user)
 
+@app.route('/tempreport')
+@login_required
+def tempreport():
+    return render_template('tempreport.html')
+
+@app.route('/humireport')
+@login_required
+def humireport():
+    return render_template('humireport.html')
+
 @app.route('/api/item_data/<int:item_id>')
 def get_item_data(item_id):
     if item_id in data:
@@ -219,9 +234,65 @@ def get_item_data(item_id):
     else:
         return jsonify({'error': 'Item not found'}), 404
 
+@app.route('/api/temperature_alerts')
+@login_required
+def get_temperature_alerts():
+    alerts_by_item = {}
+    posts = Post.query.all()  # Fetch all posts from the database
+
+    for post in posts:
+        item_id = post.id
+        max_temp = float(post.maximum_temperature)
+        item_data = data.get(item_id, {}) #replace data with database queries.
+        temperatures = item_data.get('temperature', [])
+
+        item_alerts = []
+        for temp in temperatures:
+            if temp >= max_temp or temp >= max_temp - 1:
+                item_alerts.append(temp)
+
+        if item_alerts:
+            alerts_by_item[item_id] = {
+                'food_name': post.food_name,
+                'max_temp': max_temp,
+                'alerts': item_alerts
+            }
+
+    return jsonify(alerts_by_item)
+
+@app.route('/api/humidity_alerts')
+@login_required
+def get_humidity_alerts():
+    alerts_by_item = {}
+    posts = Post.query.all()  # Fetch all posts from the database
+
+    for post in posts:
+        item_id = post.id
+        max_temp = float(post.maximum_humidity)
+        item_data = data.get(item_id, {}) #replace data with database queries.
+        humidities = item_data.get('humidity', [])
+
+        item_alerts = []
+        for temp in humidities:
+            if temp >= max_temp or temp >= max_temp - 1:
+                item_alerts.append(temp)
+
+        if item_alerts:
+            alerts_by_item[item_id] = {
+                'food_name': post.food_name,
+                'max_temp': max_temp,
+                'alerts': item_alerts
+            }
+
+    return jsonify(alerts_by_item)
+
 @app.route('/aboutus')
 def aboutus():
     return render_template('aboutus.html', current_user=current_user)
+
+@app.route('/contact')
+def contact():
+    return render_template('contact.html', current_user=current_user)
 
 @app.route('/logout')
 @login_required
@@ -275,6 +346,28 @@ def delete_food(id):
     flash('Food item deleted successfully!', 'success')
     return redirect(url_for('management'))
 
+@app.route('/export_excel/<int:item_id>')
+def export_excel(item_id):
+    if item_id in data:
+        item_data = data[item_id]
+        temperatures = item_data['temperature']
+        humidities = item_data['humidity']
+
+        wb = Workbook()
+        ws = wb.active
+
+        ws.append(['Temperature', 'Humidity'])
+        for temp, humid in zip(temperatures, humidities):
+            ws.append([temp, humid])
+
+        output = BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        return send_file(output, download_name=f'item_{item_id}_data.xlsx', as_attachment=True)
+    else:
+        return 'Item not found', 404
+    
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()

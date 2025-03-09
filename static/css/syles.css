@@ -34,6 +34,10 @@ nav {
     padding: 10px 0;
 }
 
+.button .fa-solid, .fas {
+    padding-left: 40px;
+}
+
 nav ul {
     list-style-type: none;
     display: flex;

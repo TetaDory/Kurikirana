@@ -303,3 +303,7 @@ a {
     text-decoration: none;
     color: #5A67BA;
 }
+
+.button .fa-solid, .fas {
+    padding-left: 40px;
+}
