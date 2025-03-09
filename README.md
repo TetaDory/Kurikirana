@@ -100,5 +100,6 @@ Database: MySQL (Managed via PlanetScale, Railway, or Supabase)
 CI/CD: I could use GitHub Actions for automated testing and deployment
 Authentication: Firebase/Auth0
 
+[MVP] (https://kurikirana.onrender.com)
 [GitHub Repo](https://github.com/TetaDory/Kurikirana)
 [Prototype](https://www.figma.com/proto/feFOP4qByQMAJOpTDF4Rs1/Kurikirana?node-id=207-245&t=a1yMzvtXU78GJiOL-1)
