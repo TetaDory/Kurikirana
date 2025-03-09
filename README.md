@@ -50,7 +50,7 @@ color: #000000;
 ##Deployment Process
 ###Cloud Deployment (For Production)
 
-For the frontend, I'll host it on Vercel because it's super easy to integrate with GitHub, and it automatically rebuilds and redeploys whenever I push changes. It also gives me a free domain and SSL for security.
+For the frontend, I'll host it on Vercel because it's easy to integrate with GitHub, and it automatically rebuilds and redeploys whenever I push changes. It also gives me a free domain and SSL for security.
 For the backend, I'll use Render or Railway, which are great for hosting Node.js applications with a free tier. I'll push my backend code to GitHub, connect it to Render, and deploy it from there. The API will then be publicly accessible, and my frontend can easily communicate with it.
 
 For the database, I'll go with MySQL and use PlanetScale, Railway, or Supabase—all of these offer managed databases, so I don’t have to worry about setup and maintenance. I’ll just connect my backend to one of these services, run my migrations, and I’m good to go.

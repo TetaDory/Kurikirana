@@ -42,7 +42,7 @@ google = oauth.remote_app(
     access_token_url='https://accounts.google.com/o/oauth2/token',
     authorize_url='https://accounts.google.com/o/oauth2/auth'
 )
-#postgres://default:y5AmTrIcR4zW@ep-royal-lake-92857756.us-east-1.postgres.vercel-storage.com:5432/verceldb
+
 
 db = SQLAlchemy(app)
 
