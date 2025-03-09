@@ -11,6 +11,7 @@ from sqlalchemy.dialects import postgresql
 from flask_oauthlib.client import OAuth, OAuthException
 import os
 import firebase_admin
+import secrets
 from firebase_admin import credentials, auth
 from openpyxl import Workbook
 from io import BytesIO
@@ -18,11 +19,14 @@ from io import BytesIO
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__, template_folder='templates')
-app.config['SECRET_KEY'] = 'your_secret_key'
+secret_key = secrets.token_hex(32)
+
+app.config['SECRET_KEY'] = 'secret_key'
+print(f"Your secret key is: {secret_key}")
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=1)
 app.config['SESSION_PERMANENT'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sitedb'
-app.secret_key = os.urandom(24)
+
 
 oauth = OAuth(app)
 
@@ -52,6 +56,8 @@ data = {
     4: {"temperature": [25, 27, 21, 21, 40, 22, 34, 39, 50, 25, 27, 21, 21, 40, 22, 34, 39, 50], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
     5: {"temperature": [25, 27, 21, 21, 40, 22, 34, 39, 50, 25, 27, 21, 21, 40, 22, 34, 39, 50], "humidity": [15, 20, 30, 45, 50, 68, 72, 15, 20, 30, 45, 50, 68, 72]},
     6: {"temperature": [26, 26, 25, 21, 10, 23, 23, 25, 28, 28, 26, 29, 21, 20, 22, 23, 25, 39], "humidity": [75, 70, 80, 85, 90, 88, 82, 75, 70, 80, 85, 90, 88, 82]},
+    7: {"temperature": [23, 16, 15, 11, 10, 13, 13, 15, 18, 18, 16, 29, 21, 20, 22, 23, 25, 39], "humidity": [75, 70, 80, 85, 90, 88, 82, 75, 70, 80, 85, 90, 88, 82]},
+    8: {"temperature": [23, 16, 15, 11, 10, 13, 13, 15, 18, 18, 16, 29, 21, 20, 22, 23, 25, 39], "humidity": [75, 70, 80, 85, 90, 88, 82, 75, 70, 80, 85, 90, 88, 82]},
 }
 
 # Define the User class
@@ -150,17 +156,50 @@ def login():
 def google_login():
     return google.authorize(callback=url_for('authorized', _external=True))
 
+# @app.route('/login/google/authorized')
+# def authorized():
+#     resp = google.authorized_response()
+#     if resp is None or resp.get('access_token') is None:
+#         return 'Access denied: reason={} error={}'.format(
+#             request.args['error_reason'],
+#             request.args['error_description']
+#         )
+#     session['google_token'] = (resp['access_token'], '')
+#     me = google.get('userinfo')
+#     session['google_user'] = me.data
+#     return redirect(url_for('index'))
+
 @app.route('/login/google/authorized')
 def authorized():
     resp = google.authorized_response()
     if resp is None or resp.get('access_token') is None:
-        return 'Access denied: reason={} error={}'.format(
+        flash('Access denied: reason={} error={}'.format(
             request.args['error_reason'],
             request.args['error_description']
-        )
+        ), 'danger')
+        return redirect(url_for('login'))
+
     session['google_token'] = (resp['access_token'], '')
     me = google.get('userinfo')
-    session['google_user'] = me.data
+    google_user_data = me.data
+
+    # Check if a user with this email already exists
+    user = User.query.filter_by(email=google_user_data['email']).first()
+
+    if user is None:
+        # If not, create a new user
+        # You might want to generate a random username or use part of the email
+        username = google_user_data['email'].split('@')[0]
+        # create a random password, because google users will not use a password
+        import secrets
+        random_password = secrets.token_hex(16)
+        hashed_password = generate_password_hash(random_password)
+
+        user = User(username=username, email=google_user_data['email'], password=hashed_password)
+        db.session.add(user)
+        db.session.commit()
+
+    login_user(user)  # Log in the user
     return redirect(url_for('index'))
 
 @google.tokengetter
