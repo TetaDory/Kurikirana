@@ -1,3 +1,6 @@
+Kurikirana is a platform that will allow you to track your food items' health remotely. It leverages IoT sensors to send realtime data of temperature and humidity which are two of the main factors that cause premature spoiling.
+
+Signup today and start reducing your food waste. 
 ##🎨 Style Guide to the Dashboard
 
 1️⃣ Colors
@@ -52,18 +55,34 @@ For the backend, I'll use Render or Railway, which are great for hosting Node.js
 
 For the database, I'll go with MySQL and use PlanetScale, Railway, or Supabase—all of these offer managed databases, so I don’t have to worry about setup and maintenance. I’ll just connect my backend to one of these services, run my migrations, and I’m good to go.
 
-###Local Deployment (For Development)
+###Local Deployment 
 
-During development, I’ll run everything locally. The frontend will be a React app, which I can start with:
+To acces the platform simply follow these steps:
 
+1. Clone the repositpry
 
-``` npm start ```
-
-
-The backend will run using:
+``` git clone https://github.com/TetaDory/Kurikirana.git ```
 
 
-``` npm run dev ```
+2. Navigate to the repo
+
+``` cd Kurikirana ```
+
+3. Create a virtual environment
+
+``` python3 -m venv venv ```
+
+4. Activate the virtual environment
+
+``` venv\Scripts\activate  ```
+
+5. Install Requirements
+
+``` pip install -r requirements.txt ```
+
+6. Run the app
+
+``` flask run ```
 
 
 And for the database, I can either install MySQL locally or use Docker to spin up a MySQL instance like this:

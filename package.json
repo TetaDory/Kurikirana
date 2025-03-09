@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "@vercel/postgres": "^0.5.1"
+    "@vercel/postgres": "^0.5.1",
+    "firebase": "^11.4.0"
   }
 }

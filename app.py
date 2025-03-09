@@ -10,6 +10,8 @@ from wtforms.validators import DataRequired
 from sqlalchemy.dialects import postgresql
 from flask_oauthlib.client import OAuth, OAuthException
 import os
+import firebase_admin
+from firebase_admin import credentials, auth
 from openpyxl import Workbook
 from io import BytesIO
 
@@ -36,7 +38,6 @@ google = oauth.remote_app(
     access_token_url='https://accounts.google.com/o/oauth2/token',
     authorize_url='https://accounts.google.com/o/oauth2/auth'
 )
-
 #postgres://default:y5AmTrIcR4zW@ep-royal-lake-92857756.us-east-1.postgres.vercel-storage.com:5432/verceldb
 
 db = SQLAlchemy(app)
